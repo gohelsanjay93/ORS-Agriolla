@@ -1,0 +1,121 @@
+{% extends 'common/ORS Common.html' %}
+{% load static %}
+{% load i18n %}
+{% load socialaccount %}
+
+{% block pageheadername %}
+<!-- Page Title start -->
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Login</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><a href="#">Home</a> / <span>Login</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Title End -->
+{% endblock %}
+{% block content %}
+<div class="listpgWraper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="userccount">
+          <!-- login form -->
+          <form id="login_form" class="login" method="POST" action="{% url 'account_login' %}" data-validate-username-login="{% url 'validate_username_login' %}" >{% csrf_token %}
+            {% if redirect_field_value %}
+
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+
+  {% endif %}
+          <div class="formpanel">
+            <div class="formrow">
+              <input type="text" class="form-control" name="login" placeholder="Username">
+            </div>
+            <div class="formrow">
+              <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+            <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+            <input type="submit" class="btn" value="Login">
+          </div>
+          </form>
+
+          <!-- login form  end--> 
+          
+          <!-- sign up form -->
+
+
+
+          <div class="newuser"><i class="fa fa-user" aria-hidden="true"></i> New User? <a href="{{ signup_url }}.">Register Here</a></div>
+
+          <!-- sign up form end-->
+          
+          <div class="socialLogin">
+            <h5>Login Or Register with Social</h5>
+            <a href="#." class="fb"><i class="fa fa-facebook" aria-hidden="true"></i></a> <a href="{% provider_login_url 'google' %}" class="gp"><i class="fa fa-google-plus" aria-hidden="true"></i></a> <a href="#." class="tw"><i class="fa fa-twitter" aria-hidden="true"></i></a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block userscript %}
+<script>
+ $("#login_form").validate({
+    rules: {
+        login: {required : true},
+        password: {required : true},
+    },
+    messages: {
+            login: {required :'please enter username'},
+            password: {required :'please enter valid password '},
+    }
+ });
+   $("form").submit( function(event)
+                     {
+                        event.preventDefault();
+                        var form = $(this);
+                        $.ajax({
+                                url:form.attr("data-validate-username-login"),
+                                data:form.serialize(),
+                                type:'post',
+                                datatype:'json',
+                                success : function(data)
+                                {
+                                  if(data.content)
+                                  {
+                                    console.log(data);
+                                     if(data.is_taken)
+                                    {
+                                      console.log(data);
+                                      if(!data.user)
+                                      {
+                                        swal({title:"Invalid Pass",text:data.error_msg,icon:"warning"});
+                                      }
+                                      else
+                                      {
+                                        document.getElementById('login_form').submit();
+                                        //location.replace("auth/RegistrationSuccess")
+                                      }
+                                    }
+                                    else
+                                    {
+                                      console.log(data);
+                                      swal({title:"Invalid Details",text:data.error_msg,icon:"warning"});
+                                    }
+
+                                  }
+                                  else
+                                  {
+                                    console.log(data);
+                                  }
+                                }
+
+                        });
+                  });
+</script>
+{% endblock %}

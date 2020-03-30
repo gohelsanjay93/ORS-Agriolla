@@ -1,0 +1,150 @@
+{% extends 'common/ORS Common.html'%}
+{% load static %}
+{% block pageheadername %}
+<!-- Page Title start -->
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Edit Profile</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><a href="#.">Home</a> / <span>Complate Profile</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Title End -->
+{% endblock %}
+{% block content %}
+<div class="listpgWraper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="userccount">
+            <form class="signup" method="POST" action="{% url 'Home:editprofile' %}">{% csrf_token %}
+              {% for item in profile %}
+            <div id="wsell" class="formpanel tab-pane fade in active">
+              <div class="formrow">
+                <input type="text"  id="FirstName" value="{{user.first_name}}" name="FirstName" class="form-control" placeholder="Phone" required>
+              </div><div class="formrow">
+                <input type="text"  id="LastName" value="{{user.last_name}}" name="LastName" class="form-control" placeholder="Phone" required>
+              </div><div class="formrow">
+                <input type="text"  id="phone" name="phone" value="{{ item.phone }}" class="form-control" placeholder="Phone" required>
+              </div>
+              <div class="formrow">
+                <textarea  id="address" name="address"  class="form-control" placeholder="Address" required>
+                  {{ item.address }}
+                </textarea>
+              </div>
+              <div class="formrow">
+                <input type="text"  id="pincode" name="pincode"  value="{{ item.pincode }}" class="form-control" placeholder="Pincode" required>
+              </div>
+              <div class="row">
+              <div class="formrow col-lg-4">
+                <select name="country" id="country" class="form-control" required>
+                  <option value="{{ item.country_id }}">{{ item.country }}</option>
+                </select>
+              </div>
+              <div class="formrow col-lg-4">
+                <select type="text"  id="state" name="state" class="form-control" required>
+                      <option value="{{ item.state_id }}">{{ item.state }}</option>
+                </select>
+              </div>
+              <div class="formrow col-lg-4">
+                <select type="text"  id="city" name="city" class="form-control" required>
+                      <option value="{{ item.city_id }}">{{ item.city }}</option>
+                </select>
+              </div>
+                </div>
+              <div class="formrow">
+                <input type="submit" class="btn" value="Register">
+              </div>
+            </div>
+
+              {% endfor %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block userscript %}
+<script>
+  $(document).ready(function(){
+        $.ajax({
+              type :"GET",
+              url : "{% url 'Country' %}",
+              success: function(data){
+                  //console.log(data);
+                  for(var i =0;i<data.data.length;i++)
+                  {
+                      $("#country").append("<option value="+data.data[i].id+">"+data.data[i].CountryName+"</option>");
+                  }
+              },
+              Error: function(){
+                  alert("failed");
+              }
+        })
+   });
+    $("#country").change(function(){
+          $("#state").empty();
+          $("#state").append("<option value='0'>Select State</option>");
+          $("#city").empty();
+          $("#city").append("<option value='0'>Select City</option>");
+          //alert($("#country").val())
+          console.log($("#country").val());
+          if($("#country").val() == 0)
+          {
+              swal({'title':'Select Country', 'text':'Fill the mandetory fields',icon: "warning"});
+          }
+          else
+          {
+
+                $.ajax({
+                    type :"GET",
+                      url : "{% url 'State' %}",
+                      data:{ "conid" :$(this).val() },
+                      success: function(data2){
+                           //alert("success");
+                          for(var i =0;i<data2.State.length;i++)
+                          {
+                             $("#state").append("<option value="+data2.State[i].id+">"+data2.State[i].StateName+"</option>");
+                          }
+                      },
+                      Error: function(){
+                          alert("failed");
+                      }
+                });
+          }
+    });
+
+    $("#state").change(function(){
+        $("#city").empty();
+        $("#city").append("<option value='0'>Select City</option>");
+        if($(this).val() == 0 ){
+            swal({'title':'Select State', 'text':'Fill the mandetory fields',icon: "warning"});
+        }
+         else
+         {
+            $.ajax({
+                type :"GET",
+                  url : "{% url 'City' %}",
+                  data:{ "stateid" :$(this).val() },
+                  success: function(data2){
+                      // alert("success");
+                      for(var i =0;i<data2.City.length;i++)
+                      {
+                         $("#city").append("<option value="+data2.City[i].id+">"+data2.City[i].CityName+"</option>");
+                      }
+                  },
+                  Error: function(){
+                      alert("failed");
+                  }
+            });
+         }
+    });
+
+</script>
+{% endblock %}

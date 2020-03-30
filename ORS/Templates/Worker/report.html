@@ -1,0 +1,29 @@
+{% extends 'Worker/Worker_layout.html' %}
+{% block content %}
+    <table border="1" class="table" id="MachineReport">
+                        <form action="{% url 'Emp:reportsave' %}" method="Post">{% csrf_token %}
+                            {% load widget_tweaks %}
+                            <input type="hidden" name="ID" value="{{ ad.id }}">
+                        <tr><td colspan="2">Manufactured Date :</td><td colspan="4">{% render_field Form.ManufaturedDate class="form-control" type="date" %}</td></tr>
+                        <tr><td colspan="2" >Min Number :</td><td colspan="4">{% render_field Form.IdentificationNumber class="form-control" placeholder="Enter Machine Identification number" %}</td></tr>
+
+                            <tr>
+                        <td colspan="2">Working Condition :</td><td>{% render_field Form.IsWorking class="form-control" %}</td>
+                        <td colspan="2">Efficient :</td><td>{% render_field Form.WorkEfficiency class="form-control" placeholder="About machine efficiency" %}</td></tr>
+
+
+                            <tr><td>Engine</td><td >{% render_field Form.Engine class="form-control" placeholder="Power of Machine" %}</td><td>Power :</td><td >{% render_field Form.Power class="form-control" placeholder="Power of Machine" %}</td><td>Fuel</td><td >{% render_field Form.Fuel class="form-control" placeholder="Power of Machine" %}</td></tr>
+
+
+
+
+                        <tr><td colspan="2" >WorkFor1 :</td><td colspan="4">{% render_field Form.WorkFor1 class="form-control" placeholder="Application of Machine" %}</td></tr>
+                            <tr><td colspan="2" >WorkFor2 :</td><td colspan="4">{% render_field Form.WorkFor2 class="form-control" placeholder="Application of Machine" %}</td></tr>
+                            <tr><td colspan="2" >WorkFor3 :</td><td colspan="4">{% render_field Form.WorkFor3 class="form-control" placeholder="Application of Machine"%}</td></tr>
+
+
+
+                        <td colspan="6"><input type='submit' id='savedata' class='btn btn-primary' value='Save'>&nbsp;<input                                                                              type='button' id='close' class='btn btn-danger' value='X'></td></tr>
+                        </form>
+                    </table>
+{% endblock %}

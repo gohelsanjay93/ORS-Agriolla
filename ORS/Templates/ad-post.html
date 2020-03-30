@@ -1,0 +1,168 @@
+{% extends 'common/ORS Common.html' %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+{% block pageheadername %}
+<!-- Page Title start -->
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Post_Job</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><a href="#.">Home</a> / <span>Post Job</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Title End -->
+{% endblock %}
+{% block content %}
+<div class="listpgWraper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="userccount">
+          <div class="formpanel"> 
+            
+            <!-- Ad Information -->
+            <h5>Ad Information</h5>
+            <div class="row">
+              <form method="POST" class="signup" enctype="multipart/form-data">{% csrf_token %}
+                {% load widget_tweaks %}
+                <div class="row">
+                <div class="formrow col-lg-6">
+                  {% render_field form.title class="form-control" placeholder="Name of Product" %}
+                  </div>
+                <div class="formrow col-lg-3">
+                  {% render_field form.uploadfor class="form-control" %}
+                </div>
+                <div class="formrow col-lg-3">
+                  {% render_field form.quantity class="form-control" %}
+                </div>
+                </div>
+                <div class="formrow">
+                  <input type="hidden" value="{{user.id}}" name="Owner_name" class="form-control" readonly>
+                </div>
+                <div class="row">
+                <div class="formrow col-lg-4">
+                  {% render_field form.category class="form-control" %}
+                </div>
+                <div class="formrow col-lg-4">
+                  {% render_field form.brand class="form-control" %}
+                </div>
+                <div class="formrow col-lg-4">
+                  {% render_field form.Condition class="form-control" %}
+                </div>
+                  </div>
+                <div class="row">
+                <div id = "i1" class="formrow col-lg-2">
+                  {% render_field form.image class="form-control" %}
+                </div>
+                  <div id = "i2" class="formrow col-lg-2">
+                  {% render_field form.image2 class="form-control" %}
+                </div><div id = "i3"class="formrow col-lg-2">
+                  {% render_field form.image3 class="form-control" %}
+                </div><div id = "i4"class="formrow col-lg-2">
+                  {% render_field form.image4 class="form-control" %}
+                </div><div id = "i5" class="formrow col-lg-2">
+                  {% render_field form.image5 class="form-control" %}
+                </div><div class="formrow col-lg-2">
+                  <button type="button" id="openmodel" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Preview</button>
+                </div>
+                  <div >
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between">
+        <h4 class="modal-title" id="myLargeModalLabel">Preview Images</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="btn btn-primary">X</span>
+        </button>
+      </div>
+      <div class="modal-body row" id="images">
+      </div>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="btn btn-primary">×</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+                  </div>
+                </div>
+                <div class="formrow">
+                  {% render_field form.Description class="form-control" placeholder="Enter Discription" %}
+                </div><div class="formrow">
+                  {% render_field form.Feature1 class="form-control" placeholder="Features of your product" %}
+                </div><div class="formrow">
+                  {% render_field form.Feature2 class="form-control" placeholder="Features of your product" %}
+                </div><div class="formrow">
+                  {% render_field form.Feature3 class="form-control" placeholder="Features of your product" %}
+                </div>
+                <div class="row">
+                <div class="formrow col-lg-6">
+                  {% render_field form.price class="form-control" placeholder="Enter price" %}
+                </div>
+                  <div class=" col-lg-6">
+                  <input type="submit" class="btn"value="submit">
+                    </div>
+                  </div>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block userscript %}
+<!--Ad Post Scripts start-->
+<script>
+
+$(document).ready(function(){
+    $("#id_uploadfor option:nth-child(1)").html("Upload for")
+    $("#id_category option:nth-child(1)").html("Select Category")
+    $("#id_brand option:nth-child(1)").html("Select Brand")
+    $("#id_Condition option:nth-child(1)").html("Condition")
+    $("#id_quantity option:nth-child(1)").html("Quantity")
+});
+  function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $("#images").append("<img src="+ e.target.result +" class='img-fluid'>");
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#id_image").change(function() {
+  readURL(this);
+  $("#i1").append("<div style='position:absolute;'><i class='glyphicon glyphicon-ok'></i></div>");
+});
+$("#id_image2").change(function() {
+  readURL(this);
+  $("#i2").append("<div style='position:absolute;'><i class='glyphicon glyphicon-ok'></i></div>");
+});
+$("#id_image3").change(function() {
+  readURL(this);
+  $("#i3").append("<div style='position:absolute;'><i class='glyphicon glyphicon-ok'></i></div>");
+});
+$("#id_image4").change(function() {
+  readURL(this);
+  $("#i4").append("<div style='position:absolute;'><i class='glyphicon glyphicon-ok'></i></div>");
+});
+$("#id_image5").change(function() {
+  readURL(this);
+  $("#i5").append("<div style='position:absolute;'><i class='glyphicon glyphicon-ok'></i></div>");
+});
+</script>
+<!--Ad post end-->
+{% endblock %}

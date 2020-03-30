@@ -1,0 +1,286 @@
+{% extends 'common/ORS Common.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block pageheadername %}
+<!-- Page Title start -->
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Register</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><a href="#.">Home</a> / <span>Register</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Title End -->
+{% endblock %}
+
+{% block content %}
+<div class="listpgWraper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="userccount">
+          
+          <!--<div class="alert alert-success" role="alert"><strong>Well done!</strong> Your account successfully created.</div>
+          <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Better check yourself, you're not looking too good.</div>
+          <div class="alert alert-danger" role="alert"><strong>Oh snap!</strong> Change a few things up and try submitting again.</div>
+-->
+          <div class="tab-content">
+            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" data-validate-register="{% url 'validate_username_register' %}">{% csrf_token %}
+              <div class="row">
+
+              <div id="wsell" class="formpanel tab-pane fade in active">
+                <div class="col-lg-6">
+                  <div class="formrow">
+                <input type="text" id="first_name" name="firstname" class="form-control" placeholder="First name" required>
+              </div>
+                <div class="formrow">
+                <input type="text" id="last_name" name="lastname" class="form-control" placeholder="Last name" required>
+              </div>
+              <div class="formrow">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+              </div>
+              <div class="formrow">
+                <input type="text"  id="email" name="email" class="form-control" placeholder="Email" required>
+              </div>
+              <div class="formrow">
+                <input type="text"  id="phone" name="phone" class="form-control" placeholder="Phone" required>
+              </div>
+              <div class="formrow">
+                <textarea rows="1" cols="10" id="address" name="address" class="form-control" placeholder="Address" required>
+                </textarea>
+              </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="formrow">
+                <input type="text"  id="pincode" name="pincode" class="form-control" placeholder="Pincode" required>
+              </div>
+
+              <div class="formrow">
+                <select name="country" id="country" class="form-control" required>
+                  <option value="0">Select Country</option>
+                </select>
+              </div>
+
+              <div class="formrow">
+                <select type="text"  id="state" name="state" class="form-control" required>
+                  <option value="0">
+                    Select State
+                  </option>
+
+                </select>
+              </div>
+              <div class="formrow">
+                <select type="text"  id="city" name="city" class="form-control" required>
+                  <option value="0">
+                    Select City
+                  </option>
+                </select>
+              </div>
+                  <div class="formrow">
+                <input type="date"  id="birthdate" name="birthdate" class="form-control" placeholder="" required>
+              </div>
+              <div class="formrow">
+                <input type="password" id="password1" name="password1" class="form-control" placeholder="Password">
+              </div>
+              <div class="formrow">
+                <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm Password">
+              </div>
+                </div>
+
+              {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
+              <div class="formrow">
+                <input type="submit" class="btn" value="Register">
+              </div>
+              </div>
+            </div>
+
+          </form>
+          </div>
+          <div class="newuser"><i class="fa fa-user" aria-hidden="true"></i> Already a Member? <a href="{{account_login}}">Login Here</a></div>
+          <div class="socialLogin">
+            <h5>Login Or Register with Social</h5>
+            <a href="#." class="fb"><i class="fa fa-facebook" aria-hidden="true"></i></a> <a href="#." class="gp"><i class="fa fa-google-plus" aria-hidden="true"></i></a> <a href="#." class="tw"><i class="fa fa-twitter" aria-hidden="true"></i></a> </div>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block userscript %}
+<script>
+   $(document).ready(function(){
+        $.ajax({
+              type :"GET",
+              url : "{% url 'Country' %}",
+              success: function(data){
+                  //console.log(data);
+                  for(var i =0;i<data.data.length;i++)
+                  {
+                      $("#country").append("<option value="+data.data[i].id+">"+data.data[i].CountryName+"</option>");
+                  }
+              },
+              Error: function(){
+                  alert("failed");
+              }
+        })
+   });
+
+    $("#country").change(function(){
+          $("#state").empty();
+          $("#state").append("<option value='0'>Select State</option>");
+          $("#city").empty();
+          $("#city").append("<option value='0'>Select City</option>");
+          //alert($("#country").val())
+          console.log($("#country").val());
+          if($("#country").val() == 0)
+          {
+              swal({'title':'Select Country', 'text':'Fill the mandetory fields',icon: "warning"});
+          }
+          else
+          {
+
+                $.ajax({
+                    type :"GET",
+                      url : "{% url 'State' %}",
+                      data:{ "conid" :$(this).val() },
+                      success: function(data2){
+                           //alert("success");
+                          for(var i =0;i<data2.State.length;i++)
+                          {
+                             $("#state").append("<option value="+data2.State[i].id+">"+data2.State[i].StateName+"</option>");
+                          }
+                      },
+                      Error: function(){
+                          alert("failed");
+                      }
+                });
+          }
+    });
+
+    $("#state").change(function(){
+        $("#city").empty();
+        $("#city").append("<option value='0'>Select City</option>");
+        if($(this).val() == 0 ){
+            swal({'title':'Select State', 'text':'Fill the mandetory fields',icon: "warning"});
+        }
+         else
+         {
+            $.ajax({
+                type :"GET",
+                  url : "{% url 'City' %}",
+                  data:{ "stateid" :$(this).val() },
+                  success: function(data2){
+                      // alert("success");
+                      for(var i =0;i<data2.City.length;i++)
+                      {
+                         $("#city").append("<option value="+data2.City[i].id+">"+data2.City[i].CityName+"</option>");
+                      }
+                  },
+                  Error: function(){
+                      alert("failed");
+                  }
+            });
+         }
+    });
+
+
+
+   $.validator.addMethod("regex", function (value, element, regexp){
+     var re = new RegExp(regexp);
+     return this.optional(element) || re.test(value);
+   }, $.validator.format("must contain at least 8 characters, one number, one uppercase and one lower case"))
+
+   $("#signup_form").submit(function (event) {
+       event.preventDefault();
+
+   }).validate(
+       {
+           rules : {
+                username  : {required :true, maxlength : 10},
+                email     : {required :true  },
+                password1 : {required :true },
+                password2 : {required :true, equalTo: '#password1'},
+            },
+            messages : {
+                username  : {required :'please enter username' , maxlength: 'Username should not be too long'},
+                email     : {required :'please enter email'},
+                password1 : {required :'please enter password'},
+                password2 : {required :'please enter password twice', equalTo: 'Password and Confirm password should match'},
+            }
+       }
+   );
+
+    $("#signup_form").validate(
+        {
+            rules : {
+                username : "required",
+                email : "required",
+                password1 : "required",
+                password2 : "required"
+            },
+            messages : {
+                username : {required :'please enter username'},
+                email : {required :'please enter email'},
+                password1 : {required :'please enter password'},
+                password2 : {required :'please enter password twice'},
+            }
+        }
+    );
+       $("form").submit(function (event) {
+        event.preventDefault();
+        var form = $(this);
+        $.ajax({
+            url: form.attr("data-validate-register"),
+            data: form.serialize(),
+            type: 'post',
+            content: form,
+            dataType: 'json',
+            success: function (data) {
+                if (data.content){
+                    console.log(data);
+
+                    if (data.is_taken){
+                        if (!data.username)
+                        {
+                            console.log(data);
+                            swal({'title':'Invalid User', 'text':data.error_msg,icon: "warning"});
+                        }
+                        else if(!data.email)
+                        {
+                            console.log(data);
+                            swal({'title':'Invalid email', 'text':data.error_msg,icon: "warning"});
+                        }
+                        else
+                        {
+                            console.log(data);
+                            swal({'title':'Invalid username and email', 'text':data.error_msg,icon: "warning"});
+                        }
+
+                    }
+                    else
+                    {
+                         console.log(data);
+                         document.getElementById('signup_form').submit();
+                         location.replace("{% url 'Home:sr'%}");
+                    }
+                }
+                else
+                {
+                    console.log(data);
+                    swal({'title':'Invalid Request', 'text':'Fill the mandetory fields',icon: "warning"});
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

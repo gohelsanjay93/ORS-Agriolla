@@ -1,0 +1,259 @@
+{% extends 'common/ORS Common.html' %}
+{% load static %}
+
+{% block pageheadername %}
+<!-- Page Title start -->
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Ad Detail</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><a href="#.">Home</a> / <span>Ad Name</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Title End -->
+{% endblock %}
+{% block content %}
+<div class="listpgWraper">
+  <div class="container">
+    <!-- Ad Header start -->
+    <div class="advert-header">
+      <div class="adinfo">
+        <div class="row">
+          <div class="col-md-8">
+            <h2>{{ details.title }}</h2>
+            <div class="ptext"><i class="fa fa-clock-o" aria-hidden="true"></i>{{ details.post_date }}</div>
+            <div class="cateName"> <a href="#.">{{ details.category}}</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <span>{{ details.brand }}</span> </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-4">
+
+            {% if details.uploadfor == 'Sell' %}
+            <div class="adsalary">{% if details.Owner_name_id != user.id %}<a href="{% url 'Home:payment' details.id %}">Add to cart<i class="glyphicon glyphicon-shopping-cart"></i></a>{% endif %}<strong>{{ details.price }}</strong></div>
+            {% else %}
+            <div class="adsalary">{% if details.Owner_name_id != user.id %}<a href="{% url 'Home:payment' details.id %}">Borrow item<i class="glyphicon glyphicon-shopping-cart"></i></a>{% endif %}<strong>{{ details.price }}</strong></div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ad Detail start -->
+    <div class="row">
+      <div class="col-md-8"> 
+        <!-- ad Description start -->
+        <div class="advert-header">
+          <div class="contentbox">
+            <div class="adimages row">
+              {% if details.image %}
+              <img src="{{details.image.url}}" alt="details.image" />
+              {% endif %}{% if details.image2 %}
+              <img src="{{details.image2.url}}" alt="details.image" />
+              {% endif %}{% if details.image3 %}
+              <img src="{{details.image3.url}}" alt="details.image" />
+              {% endif %}{% if details.image4 %}
+              <img src="{{details.image4.url}}" alt="details.image" />
+              {% endif %}{% if details.image5 %}
+              <img src="{{details.image5.url}}" alt="details.image" />
+              {% endif %}
+            </div>
+            <h3>Description</h3>
+            <p>
+              {{details.Description}}<br>
+              <br>
+              </p>
+            <h3>Features</h3>
+            <ul>
+              {% if details.Feature1 %}
+              <li>{{ details.Feature1 }}</li>
+              {% endif %}
+              {% if details.Feature2 %}
+              <li>{{ details.Feature2 }}</li>
+              {% endif %}
+              {% if details.Feature3 %}
+              <li>{{ details.Feature3 }}</li>
+              {% endif %}
+              {% if details.Feature4 %}
+              <li>{{ details.Feature4 }}</li>
+              {% endif %}
+              {% if details.Feature5 %}
+              <li>{{ details.Feature5 }}</li>
+              {% endif %}
+
+            </ul>
+            <h3>Additional information</h3>
+            <ul>
+              {% if moredata.Engine %}
+              <li>Engine : {{ moredata.Enine }}</li>
+              {% endif %}
+              {% if moredata.Engine %}
+              <li>Fuel type : {{ moredata.Engine }}</li>
+              {% endif %}
+              {% if moredata.Power %}
+              <li>Power : {{ moredata.Power }}</li>
+              {% endif %}
+              {% if moredata.WorkEfficiency %}
+              <li>WorkEfficiency : {{ moredata.Power }}</li>
+              {% endif %}
+              {% if moredata.WorkFor1 %}
+              <li>Applications : {{ moredata.WorkFor1 }}</li>
+              {% endif %}
+              {% if moredata.WorkFor2 %}
+              <li>Applications : {{ moredata.WorkFor2 }}</li>
+              {% endif %}
+              {% if moredata.WorkFor3 %}
+              <li>Applications : {{ moredata.WorkFor3 }}</li>
+              {% endif %}
+
+            </ul>
+          </div>
+        </div>
+        <!-- Job Description end --> 
+        
+        <!-- related jobs start -->
+        <div class="relatedJobs">
+          <h3>Related Ads</h3>
+          <ul class="searchList">
+            <!-- ad start -->
+            <li>
+              <div class="row">
+                <div class="col-md-2 col-sm-4">
+                  <div class="adimg"><img src="images/ads/01.jpg" alt="Ad Name" /></div>
+                </div>
+                <div class="col-md-10 col-sm-8">
+                  <div class="jobinfo">
+                    <div class="row">
+                      <div class="col-md-8 col-sm-7">
+                        <h3><a href="#.">Nikon Camera DSLR for sale</a></h3>
+                        <div class="cateName"> <a href="#.">Cars</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#.">Toyota</a> </div>
+                        <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>New York</span></div>
+                        <div class="clearfix"></div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis arcu est. Phasellus vel dignissim tellus...</p>
+                        <div class="listbtn"><a href="#.">View Details</a></div>
+                      </div>
+                      <div class="col-md-4 col-sm-5 text-right">
+                        <div class="adprice">$456.00</div>
+                        <div class="adverify"><i class="fa fa-check-square-o" aria-hidden="true"></i> Verified Seller</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- related jobs end -->
+      
+      <div class="col-md-4">
+        <div class="advert-header">
+          <div class="advertdetail">
+            <h3>Share This Ad</h3>
+            <div class="social"> <a href="http://www.twitter.com/" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="http://www.plus.google.com/" target="_blank"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a> <a href="http://www.facebook.com/" target="_blank"> <i class="fa fa-facebook-square" aria-hidden="true"></i></a> <a href="https://www.pinterest.com/" target="_blank"><i class="fa fa-pinterest-square" aria-hidden="true"></i></a> <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube-square" aria-hidden="true"></i></a> <a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a> </div>
+          </div>
+          <!-- Social Icons end --> 
+        </div>
+        <div class="advert-header">
+          <div class="advertdetail">
+            <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Report this AD</button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report Ad</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Report Category</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+          <!-- Social Icons end -->
+        </div>
+
+        <!-- Job Detail start -->
+        <div class="advert-header">
+          <div class="advertdetail">
+            <h3>More about this ad</h3>
+            <ul class="jbdetail">
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Ad ID</div>
+                <div class="col-md-6 col-xs-6"><span>{{ details.id}}</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Location</div>
+                <div class="col-md-6 col-xs-6"><span>{{ user.profile.city }}</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">AD Type</div>
+                <div class="col-md-6 col-xs-6"><span>For {{ details.uploadfor }}</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Ad Posted on</div>
+                <div class="col-md-6 col-xs-6"><span>{{ details.post_date |date:"M d, Y"}}</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Ad Modified on</div>
+                <div class="col-md-6 col-xs-6"><span>{{ details.update_date |date:"M d, Y"}}</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Ad Viewed</div>
+                <div class="col-md-6 col-xs-6"><span>{{details.adviewed}} times</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Member Profile</div>
+                <div class="col-md-6 col-xs-6"><span>{{ details.Owner_name }}</span></div>
+              </li>
+              <li class="row">
+                <div class="col-md-6 col-xs-6">Total Listed Ads</div>
+                <div class="col-md-6 col-xs-6"><a href="#.">12</a></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+
+        
+        <!-- Safety start -->
+        <div class="advert-header">
+          <div class="advertdetail">
+            <h3>Stay Safe</h3>
+            <div class="gmap">
+              <ul class="unorderlist">
+                <li>Avoid deals that are too good to be true.</li>
+                <li>Deal with people in your area by meeting face to face to see the item.</li>
+                <li>Never provide your personal or banking information.</li>
+                <li>See our Safety tips regarding vehicle buying and selling.</li>
+                <li>Follow the guide lines about How to shop online more safely?</li>
+                <li>How to spot scam ads?</li>
+                <li>How to protect yourself?</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

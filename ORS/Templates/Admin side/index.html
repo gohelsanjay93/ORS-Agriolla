@@ -1,0 +1,36 @@
+{% extends 'Admin side/emp_layout.html' %}
+{% block page%}
+Dashboard
+{% endblock %}
+{% block content %}
+     <div class="row">
+         <div>
+             <div class="col-sm-4 card text-white bg-primary mb-3">
+             <div class="card-header"><h2>Live ADs</h2><i class="fas fa-ad"></i></div>
+         <div class="card-text"><h3>{{live}}</h3></div>
+     </div>
+     <div class="col-sm-4 card text-white bg-success mb-3">
+          <div class="card-header"><h2>On Sell</h2></div>
+          <div class="card-text"><h3>{{sell}}</h3></div>
+     </div>
+     <div class="col-sm-4 card text-white bg-danger mb-3">
+          <div class="card-header"><h2>On Rent</h2></div>
+          <div class="card-text"><h3>{{rent}}</h3></div>
+     </div>
+     </div>
+     <div>
+        <div class="col-sm-4 card text-white bg-warning mb-3">
+            <div class="card-header"><h2>Requests</h2></div>
+             <div class="card-text"><h3>{{pending}}</h3></div>
+           </div>
+        <div class="col-sm-4 card text-white bg-info mb-3">
+        <div class="card-header"><h2>Active users</h2></div>
+           <div class="card-text"><h3>{{user}}</h3></div>
+          </div>
+        <div class="col-sm-4 card text-white bg-dark mb-3">
+               <div class="card-header"><h2>Daily visits</h2></div>
+             <div class="card-text"><h3>0</h3></div>
+         </div>
+       </div>
+     </div>
+{% endblock %}

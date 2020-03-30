@@ -1,0 +1,181 @@
+{% extends 'Admin side/emp_layout.html' %}
+{% block page %}
+    Ad/View
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="row">
+    <div class="col-md-6">
+        <h4>Ad info</h4>
+        <table class="table">
+            <tr><td>Ad Title</td><td>{{ad.title}}</td></tr>
+            <tr><td>Upload for</td><td>{{ad.uploadfor}}</td></tr>
+            <tr><td>Category</td><td>{{ad.category.name}}</td></tr>
+            <tr><td>PostDate</td><td>{{ad.post_date}}</td></tr>
+            <tr><td>Price</td><td>{{ad.price}}</td></tr>
+            <tr><td>About Ad</td><td>{{ad.Description}}</td></tr>
+            {% if ad.visit_date %}
+            <tr><td>visit date</td><td>{{ad.visit_date}}</td></tr>
+            <tr><td>Person</td><td>{{ad.verifier_person}}</td></tr>
+            {% else %}
+            <tr><td colspan="2"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Procced for date</button></td></tr>
+            {% endif %}
+            <tr><td>IsVisited </td><td>{% if ad.IsVisited %} Visited {% else %} Not visited {% endif %}</td></tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Person Profile</h4>
+        <table class="table">
+            <tr><td>First Name :</td><td>{{user.first_name}}</td></tr>
+            <tr><td>Last Name :</td><td>{{user.last_name}}</td></tr>
+            <tr><td>Username :</td><td>{{user.username}}</td></tr>
+            <tr><td>email :</td><td>{{user.email}}</td></tr>
+            <tr><td>Address :</td><td>{{profile.address}}</td></tr>
+            <tr><td>Pincode :</td><td>{{profile.pincode}}</td></tr>
+            <tr><td>City :</td><td>{{profile.city}}</td></tr>
+            <tr><td>state :</td><td>{{profile.state}}</td></tr>
+            <tr><td>Country :</td><td>{{profile.country}}</td></tr>
+            <tr><td>Phone :</td><td>{{profile.phone}}</td></tr>
+        </table>
+    </div>
+    </div>
+
+    <div class="row">
+        <div style="overflow-x;auto">
+                <h4 class="text-secondary bg-dark">Images</h4>
+                <div class="d-flex">
+                    <img src="{{ad.image.url}}" class="img-fluid">
+                    {% if ad.image2 %}
+                    <img src="{{ad.image2.url}}" class="img-fluid">
+                    {% else %}
+                    <img src="" alt="2nd img">
+                    {% endif %}
+                    {% if ad.image3 %}
+                    <img src="{{ad.image3.url}}" class="img-fluid">
+                    {% else %}
+                    <img src="" alt="3rd img">
+                    {% endif %}
+                    {% if ad.image4 %}
+                    <img src="{{ad.image4.url}}" class="img-fluid">
+                    {% else %}
+                    <img src="" alt="4th img">
+                    {% endif %}
+                    {% if ad.image5 %}
+                    <img src="{{ad.image5.url}}" class="img-fluid">
+                    {% else %}
+                    <img src="" alt="5th img">
+                    {% endif %}
+                </div>
+            </div>
+    </div>
+
+    <div class="">
+        <h4><span class="text-info">Machine Report</span>&nbsp;&nbsp;&nbsp;<span id="editreport" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> </span></h4>
+        <table border="1" class="table" id="MachineReport">
+                        <form action="{% url 'Emp:reportsave' %}" method="Post">{% csrf_token %}
+                            {% load widget_tweaks %}
+                            <input type="hidden" name="ID" value="{{ ad.id }}">
+                        <tr><td colspan="1">Manufactured Date</td><td colspan="5">{% render_field Form.ManufaturedDate class="form-control" type="date" %}</td></tr>
+                        <tr><td colspan="1" >Min Number</td><td colspan="5">{% render_field Form.IdentificationNumber class="form-control" placeholder="Enter Machine Identification number" %}</td></tr>
+
+                            <tr>
+                        <td colspan="1">Working Condition</td><td  colspan="1">{% render_field Form.IsWorking class="form-control" %}</td>
+                        <td colspan="1">Efficiency</td><td  colspan="3">{% render_field Form.WorkEfficiency class="form-control" placeholder="About machine efficiency" %}</td></tr>
+
+
+                            <tr><td>Engine</td><td >{% render_field Form.Engine class="form-control" placeholder="Power of Machine" %}</td><td>Power</td><td >{% render_field Form.Power class="form-control" placeholder="Power of Machine" %}</td><td>Fuel</td><td >{% render_field Form.Fuel class="form-control" placeholder="Power of Machine" %}</td></tr>
+
+
+
+
+                        <tr><td colspan="1" >WorkFor1 :</td><td colspan="5">{% render_field Form.WorkFor1 class="form-control" placeholder="Application of Machine" %}</td></tr>
+                            <tr><td colspan="1" >WorkFor2 :</td><td colspan="5">{% render_field Form.WorkFor2 class="form-control" placeholder="Application of Machine" %}</td></tr>
+                            <tr><td colspan="1" >WorkFor3 :</td><td colspan="5">{% render_field Form.WorkFor3 class="form-control" placeholder="Application of Machine"%}</td></tr>
+                            <tr><td colspan="1" >Other info</td><td colspan="5">{% render_field Form.Extrainfo class="form-control" placeholder="Application of Machine"%}</td></tr>
+
+
+
+                        <td colspan="6"><input type='submit' id='savedata' class='btn btn-primary' value='Save'>&nbsp;<input                                                                              type='button' id='close' class='btn btn-danger' value='X'></td></tr>
+                        </form>
+                    </table>
+    </div>
+    <h1>Approval and Rejection</h1>
+    <div class="d-flex">
+        <div class="col-lg-2 justify-content-between">
+                <a class="btn btn-success" onclick = "return confirm('Approve Advertisement?');" href="{% url 'Emp:verify' ad.id %}"><i         class="glyphicon glyphicon-ok"></i></a>&nbsp;&nbsp;
+                 <a class="btn btn-danger"  id="reject" href="#"><i class="glyphicon glyphicon-remove"></i></a>
+        </div>
+        <div class="col-lg-4 rejectform">
+                <form id="rejectform" class="form-inline disable" method="POST" action="{% url 'Emp:reject' ad.id %}">
+                    {% csrf_token %}
+                <div class="form-group d-flex">
+                    <textarea name="rejection_reason" id="rejection_reason" placeholder="Enter valid rejection reason" class="form-control" required></textarea>
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                    <button type="button" class="btn" id="x">Cancel</button>
+                </div>
+                </form>
+        </div>
+    </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'Emp:visit' %}">{% csrf_token %}
+            <input type="hidden" value="{{ad.id}}" name="adid">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Date</label>
+            <input type="datetime-local" class="form-control" name="datetime" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Person name</label>
+
+            <select name="person" class="form-control">
+                <option value="">Select Person</option>
+                {% for worker in workers %}
+                <option value="{{ worker.id}}">{{worker.FirstName}} {{worker.LastName }}</option>
+                {% endfor %}
+            </select>
+          </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#rejectform").hide();
+        $("#MachineReport input ").attr('disabled',true);
+        $("#MachineReport select ").attr('disabled',true);
+        $("#editreport").click(function(){
+                $("#MachineReport input").removeAttr('disabled');
+                $("#MachineReport select ").removeAttr('disabled',true);
+        });
+        $("#close").click(function(){
+            $("#MachineReport input ").attr('disabled',true);
+            $("#MachineReport select ").attr('disabled',true);
+        });
+
+        $("#reject").click(function(e){
+            e.preventDefault();
+            $("#rejectform").show();
+
+        });
+        $("#x").click(function(e){
+            $("#rejectform").hide();
+        });
+    });
+</script>
+
+{% endblock %}

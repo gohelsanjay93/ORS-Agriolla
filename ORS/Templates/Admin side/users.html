@@ -1,0 +1,39 @@
+{% extends 'Admin side/emp_layout.html' %}
+{% load static %}
+{% block page %}
+    Users
+{% endblock %}
+{% block content %}
+    <table id="myTable">
+                                    <thead>
+                                        <tr>
+                                          <th>ID</th>
+                                          <th>Firstname</th>
+                                          <th>Lastname</th>
+                                          <th>username</th>
+                                          <th>Email</th>
+                                          <th>Status</th>
+                                          <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in user %}
+                                        <tr>
+                                          <td>{{ user.id }}</td>
+                                          <td>{{ user.firstname }}</td>
+                                          <td>{{ user.lastname }}</td>
+                                          <td>{{ user.username }}</td>
+                                          <td>{{ user.email }}</td>
+                                          <td>{% if user.is_active == 1%}
+                                                Active
+                                              {% else %}
+                                                Inactive
+                                              {% endif %}</td>
+
+                                          <td><a href="#" class="btn btn-info">View Activity</a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+{% endblock %}
+

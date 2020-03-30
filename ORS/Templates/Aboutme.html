@@ -1,0 +1,85 @@
+{% extends 'common/ORS Common.html' %}
+{% load static %}
+{% block pageheadername %}
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Profile</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><a href="#.">Home</a> / <span>Profile</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="inner-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-4">
+        <ul class="usernavdash">
+          <li><a href="{% url 'Home:dashboard' %}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+          <li class="active"><a href="#"><i class="fa fa-user" aria-hidden="true"></i> My Details</a></li>
+          <li><a href="{% url 'Home:pendingad' %}"><i class="fa fa-desktop" aria-hidden="true"></i> My Pending Ads</a></li>
+          <li><a href="{% url 'Home:activead' %}"><i class="fa fa-laptop" aria-hidden="true"></i> My Active Ads</a></li>
+          <li><a href="{% url 'account_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+        </ul>
+
+      </div>
+      <div class="col-md-9 col-sm-8">
+        <div class="row">
+          <div class="card text-white bg-dark col-sm-5">
+
+              <h3>Profile <span><a href="{% url 'Home:editprofile' %}" onclick="return confirm('===============Please Take a Note ! ===============\n You are only allow to change Personal details.\n You can not change Username,email,birthdate which is unique \n\n If you want to change registration details then contact us?');"><i class="glyphicon glyphicon-pencil"></i></a></span></button></h3>
+            <table id="profile" class="table table-striped">
+                <tr><td>First Name :</td> <td> {{user.first_name}}</td></tr>
+                <tr><td>Last Name :</td> <td> {{user.last_name}}</td></tr>
+                <tr><td>User Name :</td> <td> {{user}}</td></tr>
+                <tr><td>Email :</td> <td> {{user.email}}</td></tr>
+                <tr><td>Phone :</td> <td> {{prof.phone}}</td></tr>
+                <tr><td>Address :</td> <td> {{prof.address}}</td></tr>
+                <tr><td>Pincode :</td> <td> {{prof.pincode}}</td></tr>
+                <tr><td>City :</td> <td> {{prof.city}}</td></tr>
+                <tr><td>State :</td> <td> {{prof.state}}</td></tr>
+                <tr><td>Country :</td> <td> {{prof.country}}</td></tr>
+            </table>
+          </div>
+          <div class="col-sm-7">
+            <h3>Activity status</h3>
+            <table class="table table-striped" ID="USERTABLE1">
+                <thead>
+                <tr><td>Activity</td><td>Product</td><td>From</td><td>TO</td></tr>
+                </thead>
+                <tbody>
+                {% if purchase %}
+                <tr><td>{%if purchase.productid.uploadfor == "Rent" %} Borrow {% else %}Purchased{% endif %}</td><td>{{ purchase.productid }}</td><td>{{purchase.takendate| date:"M d Y"}}</td><td>{{ad.rejected_status}}</td><td>{{purchase.returndte |date:"M d Y"}}</td></tr>
+                {% else %}
+                <tr><td colspan="6"><p class="text-info text-center">No Data Available</p></td></tr>
+                {% endif%}
+                </tbody>
+              </table>
+              <h3>Post Approval status</h3>
+            <table class="table table-striped" ID="USERTABLE2">
+                <thead>
+                <tr><td>Ad info</td><td>PostDate</td><td>AD status</td><td>Verification date</td><td>Verifier name</td></tr>
+                </thead>
+                <tbody>
+                {% if pending %}
+                {% for ad in pending %}
+                  <tr><td>{{ ad.title }}</td><td>{{ad.post_date| date:"M d Y"}}</td><td>{{ad.rejected_status}}</td><td>{{ad.visit_date}}</td><td>{{ad.verifier_person}}</td></tr>                      {% endfor %}
+                {% else %}
+                <tr><td colspan="6"><p class="text-info text-center">No Data Available</p></td></tr>
+                {% endif%}
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

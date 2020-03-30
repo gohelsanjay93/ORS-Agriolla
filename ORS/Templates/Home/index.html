@@ -1,0 +1,291 @@
+{% extends 'common/ORS Common.html' %}
+{% load static %}
+{% block content %}
+<!--Banner Content-->
+<div class="searchwrap">
+  <div class="container">
+    <h3>World's Largest Classifieds Site</h3>
+    <p>Search from over 99,00,000 Active ads &amp; Post free unlimited classifieds ads!</p>
+    <div class="searchbar row">
+      <form method="get" action="{% url 'Product:searchad' %}">{% csrf_token %}
+        <div class="col-md-8">
+         <input type="text" class="form-control" name="searchstring" placeholder="What are you looking for" required/>
+        </div>
+        <div class="col-md-2">
+           <select class="form-control" name="category">
+              <option value="">Select Category</option>
+              {% for item in categories %}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+              {% endfor %}
+           </select>
+        </div>
+        <div class="col-md-2">
+           <input type="submit" class="btn" value="Search Ad">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Search End --> 
+
+<!-- Featured Ads start -->
+<div class="section">
+  <div class="container"> 
+    <!-- title start -->
+    <div class="titleTop">
+      <h3>Featured <span>Ads</span></h3>
+      <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius, orci id facilisis egestas, neque purus sagittis arcu, nec maximus quam odio nec elit Pellentesque eget ipsum mattis</p>-->
+    </div>
+    <!-- title end -->
+    <ul class="gridlist itemgrid">
+       {% for item in items %}
+          {% if item.advalue == 'yes' %}
+             <li class="item">
+                  <div class="adimg">
+          <a href='{% url "Product:addetails" item.id %}'><img src="media/{{item.image}}" class="img-thumbnail" alt="{{ item.slug }}"></a>
+        </div>
+        <div class="innerad">
+          <h3><a href='{% url "Product:addetails" item.id %}'>{{ item.title }}</a></h3>
+          <div class="row location">
+            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i>{{ item.post_date|date:"Md,Y" }}</div>
+            <div class="col-md-6"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>{{ item.Owner_name.profile.city }}</div>
+          </div>
+        <div class="price">{{ item.price }}</div>
+        </div>
+             </li>
+          {% endif %}
+        {% endfor%}
+    </ul>
+  </div>
+</div>
+<!-- Featured Ads End -->
+
+<!-- Rental Ads start -->
+<div class="section">
+  <div class="container">
+    <div class="titleTop">
+       <h3>On Rental <span>Ads</span></h3>
+    </div>
+    <ul class="gridlist itemgrid">
+      {% for item in items %}
+      {% if item.uploadfor == 'Rent' %}
+      <li class="item">
+        <div class="adimg">
+          <a href='{% url "Product:addetails" item.id %}'><img src="media/{{item.image}}" class="img-thumbnail" alt="{{ item.slug }}"></a>
+        </div>
+        <div class="innerad">
+          <h3><a href='{% url "Product:addetails" item.id %}'>{{ item.title }}</a></h3>
+          <div class="row location">
+            <div class="col-md-5"><i class="fa fa-clock-o" aria-hidden="true"></i>{{ item.post_date|date:"M d" }}</div>
+            <div class="col-md-7"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>{{ item.Owner_name.profile.city }}</div>
+          </div>
+        <div class="price">{{ item.price }}</div>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor%}
+    </ul>
+ </div>
+</div>
+<!-- Rental Ads end -->
+
+<!-- Selling Ads start -->
+<div class="section">
+  <div class="container">
+    <div class="titleTop">
+       <h3>On Sell <span>Ads</span></h3>
+    </div>
+    <ul class="gridlist itemgrid">
+      {% for item in items %}
+      {% if item.uploadfor == 'Sell' %}
+      <li class="item">
+        <div class="adimg">
+          <div  class="text-center" style="position: relative;
+    left: 215px;
+    top: 30px;
+    border-radius: 7px;
+    width: 54px;
+    height: 17px;
+    z-index: 99999;
+    background-color: Green;
+    color: white;
+    transform: rotate(45deg);">
+                Offer!
+              </div>
+          <a href='{% url "Product:addetails" item.id %}'><img src="media/{{item.image}}" class="img-thumbnail" alt="{{ item.slug }}"></a>
+        </div>
+        <div class="innerad">
+          <h3><a href='{% url "Product:addetails" item.id %}'>{{ item.title }}</a></h3>
+          <div class="row location">
+            <div class="col-md-5"><i class="fa fa-clock-o" aria-hidden="true"></i>{{ item.post_date|date:"M d" }}</div>
+            <div class="col-md-7"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>{{ item.Owner_name.profile.city }}</div>
+          </div>
+        <div class="price">{{ item.price }}</div>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor%}
+    </ul>
+ </div>
+</div>
+<!-- Selling Ads end -->
+
+<!-- Categories start -->
+<div class="section catewrap">
+  <div class="container">
+    <!-- title start -->
+    <div class="titleTop">
+      <h3>Browse <span>Categories</span></h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius, orci id facilisis egestas, neque purus sagittis arcu, nec maximus quam odio nec elit Pellentesque eget ipsum mattis</p>
+    </div>
+    <ul class="categoryList row">
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.tractors %}'><img src='{%static "images/category/001.png" %}'  alt="Cate Img" /> <span>Tractors <i>({{count.tractors}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.cultivator %}'><img src='{%static "images/category/002.png" %}'  alt="Cate Img" /> <span>Cultivator <i>({{count.cultivator}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.planting %}'><img src='{%static "images/category/003.jpg" %}'  alt="Cate Img" /> <span>Planting <i>({{count.planting}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.fertilizer %}'><img src='{%static "images/category/fer.jpg" %}'  alt="Cate Img" /> <span>Fertilizing <i>({{count.fertilizer}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.irrigation %}'><img src='{%static "images/category/irigation.jpg" %}'  alt="Cate Img" /> <span>Irrigation <i>({{count.irrigation}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.harvestor %}'><img src='{%static "images/category/harvesting.jpg" %}'  alt="Cate Img" /> <span>Harvesting <i>({{count.harvestor}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.hay_maker %}'><img src='{%static "images/category/haymaking.gif" %}'  alt="Cate Img" /> <span>Hay making <i>({{count.haymaker}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.loading %}'><img src='{%static "images/category/jcb.png" %}'  alt="Cate Img" /> <span>Loading <i>({{count.loading}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.animal_food %}'><img src='{%static "images/category/09.png" %}'  alt="Cate Img" /> <span>Animal Feeding <i>({{count.animalfood}})</i></span></a></li>
+      <li class="col-md-2 col-sm-3 col-xs-6"><a href='{% url "Product:categorizedproduct" category.other %}'><img src='{%static "images/category/other.jpg" %}'  alt="Cate Img" /> <span>Other <i>({{count.other}})</i></span></a></li>
+    </ul>
+  </div>
+</div>
+<!-- Categories ends --> 
+
+<!-- Latest Ads start -->
+<div class="section">
+  <div class="container"> 
+    <!-- title start -->
+    <div class="titleTop">
+      <h3>Latest <span>Ads</span></h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius, orci id facilisis egestas, neque purus sagittis arcu, nec maximus quam odio nec elit Pellentesque eget ipsum mattis</p>
+    </div>
+    <!-- title end -->
+    <ul class="row gridlist">
+      {% for item in items %}
+      <li class="col-md-3 col-sm-6">
+        <div class="adimg">
+          <a href='{% url "Product:addetails" item.id %}'><img src="media/{{item.image}}" class="img-thumbnail" alt="{{ item.slug }}"></a>
+        </div>
+        <div class="innerad">
+          <h3><a href='{% url "Product:addetails" item.id %}'>{{ item.title }}</a></h3>
+          <div class="row location">
+            <div class="col-md-5"><i class="fa fa-clock-o" aria-hidden="true"></i>{{ item.post_date|date:"M d" }}</div>
+            <div class="col-md-7"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>{{ item.Owner_name.profile.city }}</div>
+          </div>
+        <div class="price">{{ item.price }}</div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="viewallbtn"><a href="{% url 'Product:allads' %}">View All Latest Ads</a></div>
+
+  </div>
+</div>
+<!-- Latest Ads end --> 
+
+<!-- How it Works start -->
+<div class="section whitebg howitwrap">
+  <div class="container">
+    <ul class="howlist row">
+      <!--step 1-->
+      <li class="col-md-4 col-sm-4">
+        <div class="iconcircle"><i class="fa fa-user" aria-hidden="true"></i></div>
+        <h4>Create a Free Account</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid ut labore et dolore magna aliqua.</p>
+      </li>
+      <!--step 1 end--> 
+      
+      <!--step 2-->
+      <li class="col-md-4 col-sm-4">
+        <div class="iconcircle"><i class="fa fa-black-tie" aria-hidden="true"></i></div>
+        <h4>Post your Free Ad</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid ut labore et dolore magna aliqua.</p>
+      </li>
+      <!--step 2 end--> 
+      
+      <!--step 3-->
+      <li class="col-md-4 col-sm-4">
+        <div class="iconcircle"><i class="fa fa-file-text" aria-hidden="true"></i></div>
+        <h4>Sold or Buy</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid ut labore et dolore magna aliqua.</p>
+      </li>
+      <!--step 3 end-->
+    </ul>
+  </div>
+</div>
+<!-- How it Works Ends --> 
+
+<!-- Testimonials start -->
+<div class="section">
+  <div class="container"> 
+    <!-- title start -->
+    <div class="titleTop">
+      <h3>Happy <span>Customers</span></h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius, orci id facilisis egestas, neque purus sagittis arcu, nec maximus quam odio nec elit Pellentesque eget ipsum mattis.</p>
+    </div>
+    <!-- title end -->
+    
+    <ul class="testimonialsList">
+      <li>
+        <div class="testinner">
+          <div class="testimg"><img src='{%static "images/coment-avatar-1.jpg"%}' alt=""></div>
+          <div class="clientname">Garry Miller Jr (Tutor)</div>
+          <div class="clientinfo">London, United Kingdom</div>
+          <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum viverra id nunc at finibus. Etiam sollicitudin faucibus cursus. Proin luctus cursus nulla sed iaculis. Quisque vestibulum augue nec aliquet aliquet."</p>
+        </div>
+      </li>
+      <li>
+        <div class="testinner">
+          <div class="testimg"><img src='{%static "images/coment-avatar-2.jpg"%}' alt=""></div>
+          <div class="clientname">David Jackson (Student)</div>
+          <div class="clientinfo">London, United Kingdom</div>
+          <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum viverra id nunc at finibus. Etiam sollicitudin faucibus cursus. Proin luctus cursus nulla sed iaculis. Quisque vestibulum augue nec aliquet aliquet."</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container"> 
+    <!-- title start -->
+    <div class="titleTop">
+      <h3>Ads By <span>Cities</span></h3>
+
+    </div>
+    <!-- title end -->
+    <div class="topsearchwrap">
+      <ul class="row catelist">
+        <li class="col-md-3 col-sm-6"><a href="#">London <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">New York <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Atlanta <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Andalusia <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Anchorage <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Fairbanks <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Haines <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Flagstaff <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Prescott <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Arkadelphia <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Batesville <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Camden <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Forrest City <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Hot Springs <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Little Rock <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Alameda <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Arcadia <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Barstow <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Daly City <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Downey <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Huntington Beach <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Laguna Beach <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Modesto <span>(96 Teeutors)</span></a></li>
+        <li class="col-md-3 col-sm-6"><a href="#">Rancho Cucamonga <span>(96 Teeutors)</span></a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'Admin side/emp_layout.html' %}
+{% block page %}
+    Post Requests
+{% endblock%}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <h3>Sell Request</h3>
+        <hr>
+	<table id="myTable">
+                                    <thead>
+                                      <th>Name</th>
+                                      <th>Owner</th>
+                                      <th>date</th>
+                                      <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for ad in ads %}
+                                        {% if ad.uploadfor == 'Sell' and ad.rejected_status == 'no' and ad.avail == '!Available' %}
+                                        <tr>
+                                            <td>{{ad.title}}</td>
+                                            <td>{{ad.Owner_name}}</td>
+                                            <td>{{ad.post_date|date:"M d, Y"}}</td>
+                                            <td><a class="btn btn-info"  href="{% url 'Emp:view' ad.id %}">View</a>&nbsp;&nbsp;
+                                                <a class="btn btn-success" onclick = "return confirm('Approve Advertisement?');" href="{% url 'Emp:verify' ad.id %}"><i class="glyphicon glyphicon-ok"></i></a>&nbsp;&nbsp;
+                                                <a class="btn btn-danger" onclick = "return confirm('Are you sure you want to reject Advertisement?');" href="{% url 'Emp:reject' ad.id %}"><i class="glyphicon glyphicon-remove"></i></a></td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+        </div>
+    <div class="col-lg-6">
+        <h3>Rental Request</h3>
+        <hr>
+<table id="myTable1">
+                                    <thead>
+                                      <th>Name</th>
+                                      <th>Owner</th>
+                                      <th>Date</th>
+                                      <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for ad in ads %}
+                                        {% if ad.uploadfor == 'Rent' and ad.rejected_status == 'no' and ad.avail == '!Available' %}
+                                        <tr>
+                                            <td>{{ad.title}}</td>
+                                            <td>{{ad.Owner_name}}</td>
+                                            <td>{{ad.post_date |date:"M d, Y"}}</td>
+                                            <td><a class="btn btn-info" href="{% url 'Emp:view' ad.id %}">View</a>&nbsp;&nbsp;<a class="btn btn-success" onclick = "return confirm('Approve Advertisement?');" href="{% url 'Emp:verify' ad.id %}"><i class="glyphicon glyphicon-ok"></i></a>&nbsp;&nbsp;
+                                                <a class="btn btn-danger" onclick = "return confirm('Are you sure you want to reject Advertisement?');" href="{% url 'Emp:reject' ad.id %}"><i class="glyphicon glyphicon-remove"></i></a></td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+        </div>
+    </div>
+<div class="row">
+    <div class="col-lg-6">
+        <h3>Sell Request</h3>
+        <hr>
+	<table id="myTable3">
+                                    <thead>
+                                      <th>Name</th>
+                                      <th>Owner</th>
+                                      <th>date</th>
+                                      <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for ad in ads %}
+                                        {% if ad.uploadfor == 'Sell' and ad.rejected_status == 'no' and ad.avail == '!Available' and ad.verified_status == "yes" and IsVisited == True %}
+                                        <tr>
+                                            <td>{{ad.title}}</td>
+                                            <td>{{ad.Owner_name}}</td>
+                                            <td>{{ad.post_date|date:"M d, Y"}}</td>
+                                            <td><a class="btn btn-info"  href="{% url 'Emp:view' ad.id %}">View</a>&nbsp;&nbsp;
+                                                <a class="btn btn-success" onclick = "return confirm('Approve Advertisement?');" href="{% url 'Emp:verify' ad.id %}"><i class="glyphicon glyphicon-ok"></i></a>&nbsp;&nbsp;
+                                                <a class="btn btn-danger" onclick = "return confirm('Are you sure you want to reject Advertisement?');" href="{% url 'Emp:reject' ad.id %}"><i class="glyphicon glyphicon-remove"></i></a></td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+        </div>
+    <div class="col-lg-6">
+        <h3>Rental Request</h3>
+        <hr>
+<table id="myTable4">
+                                    <thead>
+                                      <th>Name</th>
+                                      <th>Owner</th>
+                                      <th>Date</th>
+                                      <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for ad in ads %}
+                                        {% if ad.uploadfor == 'Rent' and ad.rejected_status == 'no' and ad.avail == '!Available' and ad.verified_status == "yes" and IsVisited == True %}
+                                        <tr>
+                                            <td>{{ad.title}}</td>
+                                            <td>{{ad.Owner_name}}</td>
+                                            <td>{{ad.post_date |date:"M d, Y"}}</td>
+                                            <td><a class="btn btn-info" href="{% url 'Emp:view' ad.id %}">View</a>&nbsp;&nbsp;<a class="btn btn-success" onclick = "return confirm('Approve Advertisement?');" href="{% url 'Emp:verify' ad.id %}"><i class="glyphicon glyphicon-ok"></i></a>&nbsp;&nbsp;
+                                                <a class="btn btn-danger" onclick = "return confirm('Are you sure you want to reject Advertisement?');" href="{% url 'Emp:reject' ad.id %}"><i class="glyphicon glyphicon-remove"></i></a></td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+        </div>
+    </div>
+{% endblock %}

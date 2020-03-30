@@ -1,0 +1,57 @@
+{% extends 'Worker/Worker_layout.html' %}
+{% block content %}
+<div>
+    <div class="d-flex justify-content-between"><h1 class="text-info">{{data.title }}</h1><span><i class="glyphicon glyphicon-paste"></i></span> <a class="btn btn-primary">Start Verify</a></div>
+    <div class="d-flex">
+        <img src="{{ data.image.url }}" alt="*" class="img-fluid">
+        {% if data.image2 %}
+        <img src="{{ data.image2.url }}" alt="*" class="img-fluid">
+        {% endif %}
+    </div>
+    <div>
+        <table class="table mt-4">
+            <thead>
+            <tr><td colspan="1">Ad info and Owner info to get in touch</td></tr>
+            </thead>
+            <tr><td>Ad Title</td><td>{{data.title}}</td></tr>
+            <tr><td>About Ad</td><td>{{data.Description}}</td></tr>
+            <tr><td>Category</td><td>{{data.category}}</td></tr>
+            <tr><td>Brand</td><td>{{data.brand}}</td></tr>
+            <tr><td>Location Address :</td><td>{{ userdata.address }}</td></tr>
+            <tr><td>Owner Contact :</td><td> {{ userdata.phone }}</td></tr>
+        </table>
+        {% if data.IsVisited == False %}
+        <h1>Verification Form</h1>
+        <table border="1" class="table" id="MachineReport">
+                        <form action="{% url 'Worker:report' %}" method="Post">{% csrf_token %}
+                            {% load widget_tweaks %}
+                            <input type="hidden" name="ID" value="{{ data.id }}">
+                        <tr><td colspan="">Manufactured Date :</td><td colspan="4">{% render_field Form.ManufaturedDate class="form-control" type="date" %}</td></tr>
+                        <tr><td colspan="" >Min Number :</td><td colspan="4">{% render_field Form.IdentificationNumber class="form-control" placeholder="Enter Machine Identification number" %}</td></tr>
+
+                            <tr>
+                                <td colspan="">Working Condition :</td><td>{% render_field Form.IsWorking class="form-control" %}</td></tr>
+                        <tr><td colspan="">Efficient :</td><td>{% render_field Form.WorkEfficiency class="form-control" placeholder="About machine efficiency" %}</td></tr>
+
+
+                            <tr><td>Engine</td><td >{% render_field Form.Engine class="form-control" placeholder="Power of Machine" %}</td></tr><tr><td>Power :</td><td >{% render_field Form.Power class="form-control" placeholder="Power of Machine" %}</td></tr><tr><td>Fuel</td><td >{% render_field Form.Fuel class="form-control" placeholder="Power of Machine" %}</td></tr>
+
+
+
+
+                        <tr><td colspan="" >WorkFor1 :</td><td colspan="4">{% render_field Form.WorkFor1 class="form-control" placeholder="Application of Machine" %}</td></tr>
+                            <tr><td colspan="" >WorkFor2 :</td><td colspan="4">{% render_field Form.WorkFor2 class="form-control" placeholder="Application of Machine" %}</td></tr>
+                            <tr><td colspan="" >WorkFor3 :</td><td colspan="4">{% render_field Form.WorkFor3 class="form-control" placeholder="Application of Machine"%}</td></tr>
+
+
+                         <tr><td colspan="1" >Other info</td><td colspan="5">{% render_field Form.Extrainfo class="form-control" placeholder="Application of Machine"%}</td></tr>
+                        <tr><td colspan="6"><input type='submit' id='savedata' class='btn btn-primary' value='Save'>&nbsp;<input                                                                              type='button' id='close' class='btn btn-danger' value='X'></td></tr>
+                        </form>
+                    </table>
+        {% else %}
+        <p class="text-success pl-5">Ad Verification Process done </p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

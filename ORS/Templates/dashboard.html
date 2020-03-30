@@ -1,0 +1,186 @@
+{% extends 'common/ORS Common.html '%}
+{% load static %}
+{% block pageheadername %}
+<!-- Page Title start -->
+<div class="pageTitle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h1 class="page-heading">Dashboard</h1>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="breadCrumb"><span>Welcome {{ user.first_name }}&nbsp;{{user.last_name }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+<!-- Page Title End -->
+{% block content %}
+<div class="inner-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-4">
+        <ul class="usernavdash">
+          <li class="active"><a href="{% url 'Home:dashboard' %}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+          <li><a href="{% url 'Home:aboutme' %}"><i class="fa fa-user" aria-hidden="true"></i> My Details</a></li>
+          <li><a href="{% url 'Home:pendingad' %}"><i class="fa fa-desktop" aria-hidden="true"></i> My Pending Ads</a></li>
+          <li><a href="{% url 'Home:activead' %}"><i class="fa fa-laptop" aria-hidden="true"></i> My Active Ads</a></li>
+          <li><a href="{% url 'account_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+        </ul>
+
+      </div>
+      <div class="col-md-9 col-sm-8">
+        <ul class="row profilestat">
+          <li class="col-md-2 col-sm-4 col-xs-6">
+            <div class="inbox"> <i class="fa fa-eye" aria-hidden="true"></i>
+              <h6>10</h6>
+              <strong>Ad Views</strong> </div>
+          </li>
+          <li class="col-md-2 col-sm-4 col-xs-6">
+            <div class="inbox"> <i class="fa fa-tachometer" aria-hidden="true"></i>
+              <h6>2 <span>hr</span></h6>
+              <strong>Respond Time</strong> </div>
+          </li>
+          <li class="col-md-2 col-sm-4 col-xs-6">
+            <div class="inbox"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <h6>10</h6>
+              <strong>Ad Expire</strong> </div>
+          </li>
+          <li class="col-md-2 col-sm-4 col-xs-6">
+            <div class="inbox"> <i class="fa fa-user-o" aria-hidden="true"></i>
+              <h6>21</h6>
+              <strong>Followers</strong> </div>
+          </li>
+          <li class="col-md-2 col-sm-4 col-xs-6">
+            <div class="inbox"> <i class="fa fa-briefcase" aria-hidden="true"></i>
+              <h6>2</h6>
+              <strong>Business Pro</strong> </div>
+          </li>
+          <li class="col-md-2 col-sm-4 col-xs-6">
+            <div class="inbox"> <i class="fa fa-envelope-o" aria-hidden="true"></i>
+              <h6>8</h6>
+              <strong>Messages</strong> </div>
+          </li>
+        </ul>
+
+
+
+        <div class="myads">
+          <h3>My Recent Ads</h3>
+          <ul class="searchList">
+            <!-- ad start -->
+            {% if items %}
+              {% for item in items %}
+            <li>
+              <div class="row">
+                <div class="col-md-2 col-sm-4">
+                  <div class="adimg"><img src="{{item.image.url}}" alt="Ad Name"></div>
+                </div>
+                <div class="col-md-10 col-sm-8">
+                  <div class="jobinfo">
+                    <div class="row">
+                      <div class="col-md-8 col-sm-7">
+                        <h3><a href="{% url 'Product:addetails' item.id %}">{{ item.title }}</a></h3>
+                        <div class="cateName"> <a href="#.">{{ item.category }}</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#.">{{ item.brand}}</a> </div>
+                        <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>New York</span></div>
+                        <div class="clearfix"></div>
+                        <p>{{ item.Description }}</p>
+                        <div class="listbtn"><a href="#.">View Details</a></div>
+                      </div>
+                      <div class="col-md-4 col-sm-5 text-right">
+                        <div class="adprice">{{ item.price}}</div>
+                        <a href="{% url 'Home:editproduct' item.id %}" class="editad"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit this ad</a>
+                      <a href="{% url 'Home:deleteproduct' item.id %}" class="editad"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Remove Ad</a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+            {% else %}
+            <center><h3>You have <span class="text-danger">No Ads</span> </h3></center>
+            {% endif %}
+            <!-- ad end --> 
+            
+            <!-- ad start -->
+            <!--<li>
+              <div class="row">
+                <div class="col-md-2 col-sm-4">
+                  <div class="adimg"><img src="images/ads/02.jpg" alt="Ad Name"></div>
+                </div>
+                <div class="col-md-10 col-sm-8">
+                  <div class="jobinfo">
+                    <div class="row">
+                      <div class="col-md-8 col-sm-7">
+                        <h3><a href="#.">iPhone 6plus for sale</a></h3>
+                        <div class="cateName"> <a href="#.">Cars</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#.">Toyota</a> </div>
+                        <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>New York</span></div>
+                        <div class="clearfix"></div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis arcu est. Phasellus vel dignissim tellus...</p>
+                        <div class="listbtn"><a href="#.">View Details</a></div>
+                      </div>
+                      <div class="col-md-4 col-sm-5 text-right">
+                        <div class="adprice">$456.00</div>
+                        <a href="#" class="editad"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit this ad</a> </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            &lt;!&ndash; ad end &ndash;&gt;
+            
+            &lt;!&ndash; ad start &ndash;&gt;
+            <li>
+              <div class="row">
+                <div class="col-md-2 col-sm-4">
+                  <div class="adimg"><img src="images/ads/03.jpg" alt="Ad Name"></div>
+                </div>
+                <div class="col-md-10 col-sm-8">
+                  <div class="jobinfo">
+                    <div class="row">
+                      <div class="col-md-8 col-sm-7">
+                        <h3><a href="#.">BMW car for sale urgent</a></h3>
+                        <div class="cateName"> <a href="#.">Cars</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#.">Toyota</a> </div>
+                        <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>New York</span></div>
+                        <div class="clearfix"></div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis arcu est. Phasellus vel dignissim tellus...</p>
+                        <div class="listbtn"><a href="#.">View Details</a></div>
+                      </div>
+                      <div class="col-md-4 col-sm-5 text-right">
+                        <div class="adprice">$456.00</div>
+                        <a href="#" class="editad"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit this ad</a> </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>-->
+            <!-- ad end -->
+          </ul>
+          {% if items.has_other_pages %}
+              <ul class="pagination">
+                  {% if items.has_previous %}
+                <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in items.paginator.page_range %}
+                {% if items.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if items.has_next %}
+                <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+              {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
